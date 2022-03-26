@@ -125,6 +125,8 @@ int main(void){
 			feasibles.pop_back();
 		}
 		writef << ");" << endl;
+		writef << "print_constraints($p);" << endl;
+		writef << "exit";
 	}
 
 }
