@@ -99,9 +99,34 @@ int main(void){
         }
     }
     for (auto str: feasibles) cout << str << " ";
+    //Finally, convert into polymake formatting and write to a file
+	cout << endl;
+    cout << "Do you wish to write this cover? y/n: ";
+	char input;
+	cin >> input;
+	if (input == 'y') {
+		cout << "Provide file name: ";
+		string fname;
+		cin >> fname;
+		fstream writef;
+		writef.open(fname+".txt",fstream::out);
+		writef << "use application \"polytope\";" << endl;
+		writef << "declare $p = new Polytope(POINTS=>[";
+		while (feasibles.size()) {
+			writef << "[";
+			//Iterate thru each string, put out comma seperated numbers
+			for(int i = 0;i<N;i++){
+				writef << feasibles.back()[i];
+				if (i < N - 1) writef << ",";
+			}
+			writef << "]";
+			if (feasibles.size()>1) writef << ",";
+			else writef << "]";
+			feasibles.pop_back();
+		}
+		writef << ");" << endl;
+	}
 
-    //Finally, convert into polymake formatting
-    
 }
 
 void combn(vector<string> & feasibles, int iter, int end, string cur) {
