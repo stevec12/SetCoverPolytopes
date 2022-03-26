@@ -7,4 +7,4 @@ if [ ${#} -lt 3 ] ; then
 fi
 echo "${1} ${2} y ${3}" | ./cleansetcover
 #Now have file filename-stem.txt as suitable script file for polymake
-polymake --script ${3}.txt > "${3}IE.txt"
+polymake --script ${3}.txt > "${3}IE.txt" 2> /dev/null
