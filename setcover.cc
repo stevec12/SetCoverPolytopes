@@ -7,6 +7,7 @@
 using namespace std;
 
 void combn(vector<string> &,int,int,string);
+
 int main(void){
 	cout << "Set Cover Generator" << endl;
 	cout << "Takes a Universe size and an amount of sets to generate, and attempts to produce a full dimensional set cover problem" << endl;
@@ -64,11 +65,43 @@ int main(void){
 	//Next we want to enumerate all feasible solutions
 	//This requires checking 2^N combinations
 	//Firstly generate all binary vectors of length N
-	vector<string> feasibles;
-	combn(feasibles,1,N,"0");
-	combn(feasibles,1,N,"1");
+	vector<string> subsets;
+	combn(subsets,1,N,"0");
+	combn(subsets,1,N,"1");
+    vector<string> feasibles;
+    cout << "All Subsets are:" << endl;
+    for(auto str: subsets) cout << str << " ";
+    cout << endl;
+    cout << "==========================================" << endl;
+    cout << "Feasible Subsets are:" << endl;
 	//Then check each option
-	for(auto str: feasibles) cout << str << endl;
+    while (subsets.size()){
+        //Check each element of universe covered
+        bool deletion = false;
+        for(int i=0;i<M;i++){
+            bool covered = false;
+            //Check if each set contains element i of universe
+            for (int j=0;j<N;j++) {
+                if (sets[i][j] == 1 && subsets.back()[j]=='1') {
+                    covered = true;
+                    break;
+                }
+            }
+            if (!covered) {
+                subsets.pop_back();
+                deletion = true;
+                break;
+            }
+        }
+        if (!deletion) {
+            feasibles.emplace_back(subsets.back());
+            subsets.pop_back();
+        }
+    }
+    for (auto str: feasibles) cout << str << " ";
+
+    //Finally, convert into polymake formatting
+    
 }
 
 void combn(vector<string> & feasibles, int iter, int end, string cur) {
