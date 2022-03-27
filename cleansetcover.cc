@@ -45,7 +45,10 @@ int main(void){
 	//Randomly seed more 1's
 	for (int i=0;i<N;i++){
 		for(int j=0;j<M;j++){
-			if (rand()%10 >= 6) sets[j][i] = 1;
+			//Aims for 50% 0s
+			//Expectation of N*M/2 0s, Already have 2M 0s
+			//3/10 Chance of remaining 0s to 1s
+			if (rand()%(N*M) < ((N-4)*M/2 > 0 ? (N-4)*M/2 : 0)) sets[j][i] = 1;
 		}
 	}
 	//Next we want to enumerate all feasible solutions
